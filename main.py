@@ -76,6 +76,10 @@ def main():
     ecosystem = create_ecosystem(100, 50)
     screen = create_screen(ecosystem)
 
+     # generate grid
+    grid = create_grid(ecosystem.size_x, ecosystem.size_y)
+    grid = update_grid(ecosystem, grid)
+
     # import images 
     wolf_image = pygame.image.load('./ressources/wolf.png').convert_alpha()
     wolf_image = pygame.transform.scale(wolf_image, (15, 15))
@@ -91,10 +95,6 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-
-        # generate grid
-        grid = create_grid(ecosystem.size_x, ecosystem.size_y)
-        grid = update_grid(ecosystem, grid)
 
         length = len(ecosystem.objects)
         # Simulation logic:

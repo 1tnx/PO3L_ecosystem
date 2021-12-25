@@ -1,0 +1,60 @@
+@startuml
+
+participant "pygame" as A
+participant "Ecosystem" as B
+participant "Wolf" as C
+participant "Sheep" as D
+participant "Carrot" as E
+participant "Meat" as F
+participant "organicwaste" as G
+
+create B
+A -> B: << create >>
+A -> A: create grid
+
+group generation [for object in generation.py]
+  activate B
+  create C
+  B -> C: << create >>
+  create D
+  B -> D: << create >>
+  create E
+  B -> E: << create >>
+  B -> A: ecosystem
+  deactivate B
+end
+
+A -> A: update grid
+
+group loop [while True]
+    group loop [for object in ecosystem]
+        alt object isinstance Wolf
+            A -> C: process_ecosystem(object, ecosystem, grid)
+            activate C
+            C -> A: ecosystem
+            deactivate C
+        else object isinstance Carrot
+            A -> E: process_ecosystem(object, ecosystem, grid)
+            activate E
+            E -> A: ecosystem
+            deactivate E
+        else object isinstance Sheep
+            A -> D: process_ecosystem(object, ecosystem, grid)
+            activate D
+            D -> A: ecosystem)
+            deactivate D
+        else type(object) == Meat
+            A -> F: process_ecosystem(object, ecosystem, grid)
+            activate F
+            F -> A: ecosystem
+            deactivate F
+        else type(object) == OrganicWaste
+            A -> G: process_ecosystem(object, ecosystem, grid)
+            activate G
+            G -> A: ecosystem
+            deactivate G
+        end
+    end
+    A -> A: update grid
+end
+@enduml
