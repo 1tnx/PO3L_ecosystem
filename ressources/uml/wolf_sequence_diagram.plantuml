@@ -1,0 +1,54 @@
+@startuml
+
+participant "Ecosystem" as A
+participant "Wolf" as B
+participant "Sheep" as C
+participant "Meat" as D
+participant "organicwaste" as E
+
+activate A
+
+
+alt age > max_age
+    B --> A : ecosystem.remove_object(Wolf)
+    A -> B !! : << destroy >>
+    A -> D ** : << create >>
+    D --> A : ecosystem.add(Meat)
+end
+
+alt energy is 0
+  alt life_points > 0
+    B -> B : modify_lifepoints(-1)
+    B -> B : modify_energy(6)
+  end
+  alt life_points is 0
+    B --> A : ecosystem.remove_object(Wolf)
+    A -> B !! : << destroy >>
+    A -> D ** : << create >>
+    D --> A : ecosystem.add(Meat)
+  end
+end
+
+alt found prey in contact_zone
+  A -> C : modify_lifepoints(-1)
+  B -> B : modify_energy(-2)
+end
+
+alt found meat in contact_zone
+  A -> D : modify_energy(-hunger)
+  B -> B : modify_energy(hunger)
+end
+
+alt found partner in contact_zone
+  A -> B : << create >>
+  B --> A : ecosystem.add(Wolf)
+  A -> D : modify_energy(-2)
+  B -> B : modify_energy(-2)
+end
+  A -> E ** : << create >>
+  E --> A : ecosystem.add(OrganicWaste)
+
+B -> B : move()
+
+
+@enduml
